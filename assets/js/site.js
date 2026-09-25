@@ -90,6 +90,14 @@
     go();
   }
 
+  // Decorative hero graphic has an independent pause control.
+  var signalToggle = document.querySelector(".signal-toggle");
+  if (signalToggle) signalToggle.addEventListener("click", function () {
+    var paused = document.querySelector(".hero-network").classList.toggle("is-paused");
+    signalToggle.textContent = paused ? "Play animation ▷" : "Pause animation Ⅱ";
+    signalToggle.setAttribute("aria-label", (paused ? "Play" : "Pause") + " animated graphic");
+  });
+
   // ---------- Reveal on scroll ----------
   var reveals = document.querySelectorAll("[data-reveal]");
   if (!reduceMotion && "IntersectionObserver" in window) {
