@@ -197,14 +197,30 @@
   });
 
   // ---------- Videos: play when visible, respect reduced motion ----------
+  var previews = document.querySelectorAll(".project-preview");
+  var motionButton = document.querySelector(".preview-motion");
+  var previewsPaused = !!reduceMotion;
+  function updatePreviewMotion() {
+    Array.prototype.forEach.call(previews, function (v) {
+      v.dataset.motionPaused = String(previewsPaused);
+      if (previewsPaused) v.pause();
+      else { var play = v.play(); if (play && play.catch) play.catch(function () {}); }
+    });
+    if (motionButton) {
+      motionButton.textContent = previewsPaused ? "Play previews ▷" : "Pause previews Ⅱ";
+      motionButton.setAttribute("aria-label", (previewsPaused ? "Play" : "Pause") + " project video previews");
+    }
+  }
+  if (motionButton) motionButton.addEventListener("click", function () { previewsPaused = !previewsPaused; updatePreviewMotion(); });
+  updatePreviewMotion();
   var videos = document.querySelectorAll("video");
   if (reduceMotion) {
-    Array.prototype.forEach.call(videos, function (v) { v.controls = true; });
+    Array.prototype.forEach.call(videos, function (v) { if (!v.classList.contains("project-preview")) v.controls = true; });
   } else if ("IntersectionObserver" in window) {
     var vo = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         var v = en.target;
-        if (en.isIntersecting) {
+        if (en.isIntersecting && v.dataset.motionPaused !== "true") {
           if (v.preload === "none") v.preload = "auto";
           var p = v.play();
           if (p && p.catch) p.catch(function () {});

@@ -18,7 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/dmsans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=8">
+  <link rel="stylesheet" href="assets/css/site.css?v=9">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -96,17 +96,16 @@
           </div>
           <p class="hero__availability">Open to AI research-engineering &amp; applied-science roles.</p>
         </div>
-        <nav class="project-overview" aria-labelledby="overview-title">
-          <div class="project-overview__head"><p class="eyebrow">Explore my work</p><h2 id="overview-title">A few things<br>I’ve been building.</h2></div>
-          <ol class="project-overview__list">
-            <li><a href="#clinical"><span class="project-overview__number">01</span><span><strong>Epilepsy research</strong><small>Brain networks, localisation &amp; surgical outcomes</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
-            <li><a href="#vla"><span class="project-overview__number">02</span><span><strong>Vision-language-action models</strong><small>Teaching a robot to act on what it sees and reads</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
-            <li><a href="#dexterous-hand"><span class="project-overview__number">03</span><span><strong>Dexterous robot hands</strong><small>Learning to manipulate through touch and control</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
-            <li><a href="#human-video"><span class="project-overview__number">04</span><span><strong>Learning from human video</strong><small>From hand tracking to robot demonstrations</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
-            <li><a href="#isaac-lab"><span class="project-overview__number">05</span><span><strong>Robot learning in Isaac Lab</strong><small>Simulation, demonstrations &amp; imitation learning</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
-            <li><a href="#underwater"><span class="project-overview__number">06</span><span><strong>Underwater video restoration</strong><small>A computer-vision side project, inspired by diving</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
-          </ol>
-        </nav>
+        <div class="project-overview">
+          <div class="project-overview__head"><h2 id="overview-title">Explore my work</h2><button class="preview-motion" type="button" aria-label="Pause project video previews">Pause previews <span aria-hidden="true">Ⅱ</span></button></div>
+          <nav aria-labelledby="overview-title"><ol class="project-overview__grid"><li><a class="project-tile" href="#clinical"><div class="project-tile__visual project-tile__eeg"><span class="tile-annotation">BRAIN SIGNALS / ML</span><svg viewBox="0 0 400 120" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="1.5"><path opacity=".45" d="M0 25l20 0 10-5 10 10 10-5 20 0 10-3 10 6 10-3 20 0 10-8 8 18 8-15 8 5 20 0 10-4 10 8 10-4 20 0 10-5 10 10 10-5 20 0 10-3 10 6 10-3 40 0"/><path d="M0 62h25l10-4 10 8 10-4h25l10-7 10 14 10-7h20l8-7 8 19 8-36 8 62 8-90 8 98 8-67 8 36 8-20 8 9 8-4h25l10-4 10 8 10-4h20l10-6 10 12 10-6h35"/><path opacity=".45" d="M0 100h20l10-5 10 10 10-5h30l10-3 10 6 10-3h25l10-5 10 10 10-5h25l10-7 10 14 10-7h20l10-4 10 8 10-4h30l10-3 10 6 10-3h30"/></g></svg><span class="tile-annotation tile-annotation--bottom">Signal illustration</span></div><span class="project-tile__caption"><span><strong>Epilepsy research</strong><small>iEEG · Master’s thesis</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#vla"><div class="project-tile__visual project-tile__vla" aria-hidden="true"><div class="policy-flow"><svg class="icon"><use href="#i-video"/></svg><span>+</span><span class="policy-prompt">“pick up<br>the bowl”</span><span>→</span><svg class="icon"><use href="#i-robot"/></svg></div><div class="policy-score"><strong>91.0%</strong><span>LIBERO-Goal success</span></div></div><span class="project-tile__caption"><span><strong>Vision → language → action</strong><small>Robot policies · LIBERO</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#dexterous-hand"><div class="project-tile__visual"><video class="project-preview" muted loop playsinline preload="metadata" poster="assets/media/shadow-reorient-first4.jpg" aria-hidden="true" tabindex="-1"><source src="assets/media/shadow-reorient-first4.mp4" type="video/mp4"></video><span class="tile-video-label" aria-hidden="true">↻ VIDEO</span></div><span class="project-tile__caption"><span><strong>Dexterous robot hands</strong><small>MuJoCo · PPO</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#human-video"><div class="project-tile__visual"><video class="project-preview" muted loop playsinline preload="metadata" poster="assets/media/hand-retarget.jpg" aria-hidden="true" tabindex="-1"><source src="assets/media/hand-retarget.mp4" type="video/mp4"></video><span class="tile-video-label" aria-hidden="true">↻ VIDEO</span></div><span class="project-tile__caption"><span><strong>Learning from human video</strong><small>Hand tracking · Imitation</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#isaac-lab"><div class="project-tile__visual"><video class="project-preview" muted loop playsinline preload="metadata" poster="assets/media/isaac-parallel.jpg" aria-hidden="true" tabindex="-1"><source src="assets/media/isaac-parallel.mp4" type="video/mp4"></video><span class="tile-video-label" aria-hidden="true">↻ VIDEO</span></div><span class="project-tile__caption"><span><strong>Learning in Isaac Lab</strong><small>Simulation · Demonstrations</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#underwater"><div class="project-tile__visual"><img src="assets/media/reef-after.jpg" alt="Restored underwater footage showing coral on the reef" width="1280" height="720"></div><span class="project-tile__caption"><span><strong>Underwater restoration</strong><small>Computer vision · Diving</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+          </ol></nav>
+        </div>
       </div>
     </section>
 
@@ -401,6 +400,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/site.js?v=7" defer></script>
+  <script src="assets/js/site.js?v=9" defer></script>
 </body>
 </html>
