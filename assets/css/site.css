@@ -722,6 +722,20 @@ h1 em, h2 em { font-weight: 450; font-style: normal; }
 .policy-score span { font-size: .58rem; color: var(--ink-2); }
 .tile-video-label { position: absolute; top: 9px; left: 10px; background: #181a18cc; color: #fff; padding: 4px 6px; font-size: .52rem; letter-spacing: .09em; pointer-events: none; }
 @media (min-width:1024px) { .hero__grid { grid-template-columns: 1fr 1.15fr; gap: 5vw; } .hero__intro h1 { font-size: clamp(2.8rem, 1.4rem + 3.3vw, 4.9rem); } }
-@media (min-width:600px) and (max-width:1023px) { .project-overview__grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+@media (min-width:768px) { .project-overview__grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
 @media (max-width:479px) { .project-overview__grid { gap: 20px 12px; } .project-tile__visual { aspect-ratio: 4 / 3; } .project-tile__caption strong { font-size: .82rem; } .project-tile__caption small { font-size: .65rem; } .project-tile__vla { padding: 10px; } .policy-flow { gap: 4px; } .policy-flow .icon { width: 18px; height: 18px; } .policy-score { flex-wrap: wrap; gap: 4px; } .policy-score span { font-size: .53rem; } }
 @media (prefers-reduced-motion:reduce) { .project-tile img, .project-tile video, .project-tile__arrow { transition: none; } }
+
+/* A quiet opening, followed by the full visual project index. */
+.hero-still { min-width: 0; }
+.hero-still > img { width: 100%; aspect-ratio: 6 / 5; object-fit: cover; object-position: 40% center; }
+.hero-still figcaption { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 18px; border-bottom: 1px solid var(--line); font-size: .84rem; color: var(--ink); }
+.hero-still__detail { display: block; margin-top: 4px; font-size: .76rem; color: var(--muted); }
+.hero-still figcaption a { display: grid; place-items: center; min-width: 44px; min-height: 44px; border: 1px solid var(--line-strong); text-decoration: none; font-size: 1.25rem; }
+.hero-still figcaption a:hover { background: var(--sky-100); }
+.project-gallery { padding-block: clamp(2.5rem,4vw,4rem) clamp(3rem,5vw,5rem); border-top: 1px solid var(--line); background: #f4f1eb; }
+.project-overview__head { margin-bottom: 26px; }
+.project-overview__grid { row-gap: 28px; column-gap: 24px; }
+.project-overview h2 { font-size: .85rem; }
+@media (min-width:1024px) { .hero__grid { grid-template-columns: 1.1fr 1fr; gap: 7vw; } }
+@media (max-width:767px) { .hero-still > img { aspect-ratio: 4 / 3; } .project-overview__grid { column-gap: 12px; } }

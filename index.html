@@ -18,7 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/dmsans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=9">
+  <link rel="stylesheet" href="assets/css/site.css?v=10">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -96,7 +96,15 @@
           </div>
           <p class="hero__availability">Open to AI research-engineering &amp; applied-science roles.</p>
         </div>
-        <div class="project-overview">
+        <figure class="hero-still">
+          <img src="assets/media/shadow-reorient.jpg" alt="My simulated Shadow Hand holding a cube in MuJoCo" width="1280" height="720" fetchpriority="high">
+          <figcaption><span>From my workspace<span class="hero-still__detail">Learning dexterous manipulation in MuJoCo.</span></span><a href="#work-overview" aria-label="Explore my projects below">↓</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="project-gallery" id="work-overview" aria-labelledby="overview-title">
+        <div class="container project-overview">
           <div class="project-overview__head"><h2 id="overview-title">Explore my work</h2><button class="preview-motion" type="button" aria-label="Pause project video previews">Pause previews <span aria-hidden="true">Ⅱ</span></button></div>
           <nav aria-labelledby="overview-title"><ol class="project-overview__grid"><li><a class="project-tile" href="#clinical"><div class="project-tile__visual project-tile__eeg"><span class="tile-annotation">BRAIN SIGNALS / ML</span><svg viewBox="0 0 400 120" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="1.5"><path opacity=".45" d="M0 25l20 0 10-5 10 10 10-5 20 0 10-3 10 6 10-3 20 0 10-8 8 18 8-15 8 5 20 0 10-4 10 8 10-4 20 0 10-5 10 10 10-5 20 0 10-3 10 6 10-3 40 0"/><path d="M0 62h25l10-4 10 8 10-4h25l10-7 10 14 10-7h20l8-7 8 19 8-36 8 62 8-90 8 98 8-67 8 36 8-20 8 9 8-4h25l10-4 10 8 10-4h20l10-6 10 12 10-6h35"/><path opacity=".45" d="M0 100h20l10-5 10 10 10-5h30l10-3 10 6 10-3h25l10-5 10 10 10-5h25l10-7 10 14 10-7h20l10-4 10 8 10-4h30l10-3 10 6 10-3h30"/></g></svg><span class="tile-annotation tile-annotation--bottom">Signal illustration</span></div><span class="project-tile__caption"><span><strong>Epilepsy research</strong><small>iEEG · Master’s thesis</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
 <li><a class="project-tile" href="#vla"><div class="project-tile__visual project-tile__vla" aria-hidden="true"><div class="policy-flow"><svg class="icon"><use href="#i-video"/></svg><span>+</span><span class="policy-prompt">“pick up<br>the bowl”</span><span>→</span><svg class="icon"><use href="#i-robot"/></svg></div><div class="policy-score"><strong>91.0%</strong><span>LIBERO-Goal success</span></div></div><span class="project-tile__caption"><span><strong>Vision → language → action</strong><small>Robot policies · LIBERO</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
@@ -106,7 +114,6 @@
 <li><a class="project-tile" href="#underwater"><div class="project-tile__visual"><img src="assets/media/reef-after.jpg" alt="Restored underwater footage showing coral on the reef" width="1280" height="720"></div><span class="project-tile__caption"><span><strong>Underwater restoration</strong><small>Computer vision · Diving</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
           </ol></nav>
         </div>
-      </div>
     </section>
 
     <nav class="subnav" aria-label="On this page">
