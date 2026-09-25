@@ -18,7 +18,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/site.css?v=2">
+  <link rel="stylesheet" href="assets/css/site.css?v=3">
   <script>
     (function () {
       try {
@@ -186,55 +186,32 @@
         <!-- More projects -->
         <div class="projects">
           <article class="card project" aria-labelledby="p-dex">
-            <div class="media" data-media="dexhand">
-              <div class="art" aria-hidden="true">
-                <svg viewBox="0 0 320 200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="128" y="62" width="64" height="64" rx="6" transform="rotate(18 160 94)" stroke-width="2.5"/>
-                  <path d="M150 150c-18-4-30-20-30-44M170 150c16-4 30-20 30-44M160 150v28" opacity=".6"/>
-                  <path d="M120 106c-8-14-10-30-4-44M200 106c8-14 12-30 6-44M140 72c-2-16 2-30 10-40M180 72c2-16-2-30-10-40" opacity=".6"/>
-                  <circle cx="116" cy="62" r="4" fill="currentColor"/><circle cx="206" cy="62" r="4" fill="currentColor"/><circle cx="150" cy="32" r="4" fill="currentColor"/><circle cx="170" cy="32" r="4" fill="currentColor"/>
-                </svg>
-              </div>
+            <div class="media">
+              <video muted loop playsinline preload="none" poster="assets/media/shadow-reorient.jpg" aria-label="Simulated Shadow Hand turning a cube to match a target orientation">
+                <source src="assets/media/shadow-reorient.mp4" type="video/mp4">
+              </video>
             </div>
             <div class="body">
               <span class="eyebrow" style="margin:0">MuJoCo · RL · Tactile</span>
               <h3 id="p-dex">Dexterous in-hand manipulation</h3>
               <p>A Shadow Hand (24 joints, 20 actuators, tendon-coupled finger joints) reorients a cube through intermittent contact. I built the environment, domain randomisation and fingertip touch sensing, and a threaded simulator that runs about 1,700 control steps per second across 8 environments on an M1 laptop. On top sit a PPO teacher trained on privileged state with an adaptive curriculum, and a DAgger student that sees only proprioception, touch and the goal, with no cube pose.</p>
-              <p class="fine">Trained on a laptop: the whole pipeline and its learning signal are verified end to end. Full 3-D reorientation needs GPU-scale compute.</p>
-              <div class="links"><a href="https://github.com/tristanengelborghs/robot/tree/main/shadow-mujoco">Code →</a></div>
+              <p class="fine">Clip: the PPO teacher after about 120k environment steps, in real time. It shows the 3 best of 200 evaluation episodes (9, 7 and 6 goals reached); the average is 1.2 goals per 5-second episode, against 0.34 for random actions. Trained on a laptop, so full 3-D reorientation is still out of reach.</p>
+              <div class="links"><a href="https://github.com/tristanengelborghs/robot/tree/main/shadow-mujoco">Code →</a><a href="assets/media/shadow-reorient-unselected.mp4">Unselected episodes ↗</a></div>
             </div>
           </article>
 
           <article class="card project" aria-labelledby="p-hand">
             <div class="media">
-              <div class="art" aria-hidden="true">
-                <svg viewBox="0 0 320 200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <g opacity=".85">
-                    <path d="M150 170 L132 142 L120 118 L112 98 L106 82"/>
-                    <path d="M150 170 L146 124 L144 96 L143 76 L142 58"/>
-                    <path d="M150 170 L162 122 L166 94 L168 72 L170 54"/>
-                    <path d="M150 170 L176 128 L184 104 L188 86 L191 70"/>
-                    <path d="M150 170 L188 140 L200 124 L208 112 L214 100"/>
-                    <path d="M132 142 L146 124 L162 122 L176 128 L188 140"/>
-                  </g>
-                  <g fill="currentColor" stroke="none">
-                    <circle cx="150" cy="170" r="4.5"/><circle cx="132" cy="142" r="3.5"/><circle cx="120" cy="118" r="3.5"/><circle cx="112" cy="98" r="3.5"/><circle cx="106" cy="82" r="3.5"/>
-                    <circle cx="146" cy="124" r="3.5"/><circle cx="144" cy="96" r="3.5"/><circle cx="143" cy="76" r="3.5"/><circle cx="142" cy="58" r="3.5"/>
-                    <circle cx="162" cy="122" r="3.5"/><circle cx="166" cy="94" r="3.5"/><circle cx="168" cy="72" r="3.5"/><circle cx="170" cy="54" r="3.5"/>
-                    <circle cx="176" cy="128" r="3.5"/><circle cx="184" cy="104" r="3.5"/><circle cx="188" cy="86" r="3.5"/><circle cx="191" cy="70" r="3.5"/>
-                    <circle cx="188" cy="140" r="3.5"/><circle cx="200" cy="124" r="3.5"/><circle cx="208" cy="112" r="3.5"/><circle cx="214" cy="100" r="3.5"/>
-                  </g>
-                  <path d="M236 150h40M262 138l14 12-14 12" opacity=".6"/>
-                  <path d="M44 150h40M70 138l14 12-14 12" opacity=".6"/>
-                </svg>
-              </div>
+              <video muted loop playsinline preload="none" poster="assets/media/hand-retarget.jpg" aria-label="Tracked hand skeleton on the left and the resulting robot action traces on the right">
+                <source src="assets/media/hand-retarget.mp4" type="video/mp4">
+              </video>
             </div>
             <div class="body">
               <span class="eyebrow" style="margin:0">Computer vision · Imitation</span>
               <h3 id="p-hand">Robot demonstrations from human video</h3>
               <p>This pipeline films a person doing a task and converts the video into robot demonstrations in LIBERO's format. It tracks the hand with MediaPipe, fits the palm pose with Kabsch alignment and smooths it with a 1-Euro filter that coasts through occlusions. The pose is then retargeted to end-effector actions resampled onto the robot's 20 Hz control clock.</p>
-              <p class="fine">Each stage guards against a specific silent failure, such as a per-frame handedness flip that yields a fully confident 180° error.</p>
-              <div class="links"><a href="https://github.com/tristanengelborghs/robot/tree/main/panda-libero">Code →</a></div>
+              <p class="fine">Each stage guards against a specific silent failure, such as a per-frame handedness flip that yields a fully confident 180° error. Clip: the pipeline on a synthetic hand with landmark noise and a scripted occlusion; tracked skeleton on the left, 20 Hz robot actions on the right.</p>
+              <div class="links"><a href="https://github.com/tristanengelborghs/robot/tree/main/panda-libero">Code →</a><a href="assets/media/hand-retarget.mp4">Full-size clip ↗</a></div>
             </div>
           </article>
 
@@ -424,6 +401,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/site.js?v=2" defer></script>
+  <script src="assets/js/site.js?v=3" defer></script>
 </body>
 </html>

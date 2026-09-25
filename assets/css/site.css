@@ -896,7 +896,7 @@ p {
 }
 
 .project .media {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   background: var(--surface-2);
   border-bottom: 1px solid var(--line);
   overflow: hidden;
