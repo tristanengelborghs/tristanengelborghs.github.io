@@ -7,18 +7,18 @@
   <meta name="description" content="Tristan Engelborghs, AI engineer (MEng Artificial Intelligence, KU Leuven). Robot learning — vision-language-action models, dexterous manipulation, learning from demonstration — and clinical machine learning on intracranial EEG.">
   <meta name="author" content="Tristan Engelborghs">
   <link rel="canonical" href="https://tristanengelborghs.github.io/">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#fcfbf8">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tristanengelborghs.github.io/">
   <meta property="og:title" content="Tristan Engelborghs — AI Engineer">
-  <meta property="og:description" content="Robot learning and clinical machine learning. MEng Artificial Intelligence, KU Leuven.">
+  <meta property="og:description" content="Clinical machine learning and robot learning. Epilepsy research, intracranial EEG and embodied AI. KU Leuven.">
   <meta property="og:image" content="https://tristanengelborghs.github.io/assets/img/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/dmsans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=6">
+  <link rel="stylesheet" href="assets/css/site.css?v=15">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -70,9 +70,9 @@
       </a>
       <nav class="nav" aria-label="Main">
         <ul class="nav__list">
-          <li><a class="nav__link" href="#vla">Work</a></li>
+          <li><a class="nav__link" href="#clinical">Epilepsy research</a></li>
+          <li><a class="nav__link" href="#vla">Robot learning</a></li>
           <li><a class="nav__link" href="#projects">Projects</a></li>
-          <li><a class="nav__link" href="#clinical">Clinical ML</a></li>
           <li><a class="nav__link" href="#about">About</a></li>
         </ul>
       </nav>
@@ -84,44 +84,47 @@
     <!-- Hero -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="container hero__grid">
-        <div>
-          <p class="kicker">AI engineer · MEng Artificial Intelligence, KU Leuven</p>
-          <h1 id="hero-title">Learning systems for robots and <em>the clinic.</em></h1>
-          <p class="hero__lead">I build machine-learning systems end to end: robot policies that turn camera images and language into motion, and clinical models that read intracranial EEG to support epilepsy surgery. I care as much about measuring a result honestly as about getting it.</p>
+        <div class="hero__intro">
+          <p class="kicker">AI engineer · Leuven, Belgium</p>
+          <h1 id="hero-title">Hi, I’m Tristan<br><em>Engelborghs.</em></h1>
+          <p class="hero__lead">I build machine-learning systems, from brain signals to robot behaviour. I’m a KU Leuven AI graduate who likes taking a problem all the way from an idea to something that works.</p>
+          <p class="hero__personal">My work spans epilepsy research, robot learning and computer vision. Away from the keyboard, I teach scuba diving — and sometimes bring a little engineering back from the reef.</p>
           <div class="hero__actions">
-            <a class="btn btn--primary btn--lg" href="#vla">See my work<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--primary btn--lg" href="#about">More about me<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             <a class="btn btn--ghost btn--lg" href="https://github.com/tristanengelborghs" rel="me"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
             <a class="btn btn--ghost btn--lg" href="https://www.linkedin.com/in/tristan-engelborghs/" rel="me"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a>
           </div>
-          <ul class="hero__facts" aria-label="Highlights">
-            <li><strong>91.0%</strong><span>LIBERO-Goal success with a fine-tuned VLA</span></li>
-            <li><strong>4</strong><span>robot-learning projects in three simulators</span></li>
-            <li><strong>2</strong><span>clinical centres in my thesis workflow</span></li>
-          </ul>
+          <p class="hero__availability">Open to AI research-engineering &amp; applied-science roles.</p>
         </div>
-        <div class="hero__media">
-          <figure class="hero__figure">
-            <video muted loop playsinline preload="metadata" poster="assets/media/shadow-reorient.jpg" aria-label="Simulated Shadow Hand turning a cube to match a target orientation">
-              <source src="assets/media/shadow-reorient.mp4" type="video/mp4">
-            </video>
-            <figcaption class="hero__place"><span class="tag tag--glass">Shadow Hand in MuJoCo · my PPO policy · best 3 of 200 episodes</span></figcaption>
-          </figure>
-          <div class="hero__card">
-            <span class="hero__card-label"><span class="status">Available now</span></span>
-            <a class="hero__card-big" href="mailto:tristanengelborghs@icloud.com">Let's talk</a>
-            <p class="hero__card-foot">Looking for AI research-engineering and applied-science roles in robotics, science and health.</p>
+        <figure class="hero-network" aria-label="Animated illustration of pulses travelling through a neural network">
+          <div class="signal-art">
+            <canvas width="560" height="448" aria-hidden="true"></canvas>
+            <button class="signal-toggle" type="button" aria-label="Pause animated graphic"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10"/></svg></button>
           </div>
-        </div>
+        </figure>
       </div>
+    </section>
+
+    <section class="project-gallery" id="work-overview" aria-labelledby="overview-title">
+        <div class="container project-overview">
+          <div class="project-overview__head"><h2 id="overview-title">Explore my work</h2><button class="preview-motion" type="button" aria-label="Pause project video previews">Pause previews <span aria-hidden="true">Ⅱ</span></button></div>
+          <nav aria-labelledby="overview-title"><ol class="project-overview__grid"><li><a class="project-tile" href="#clinical"><div class="project-tile__visual project-tile__eeg"><span class="tile-annotation">BRAIN SIGNALS / ML</span><svg viewBox="0 0 400 120" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="1.5"><path opacity=".45" d="M0 25l20 0 10-5 10 10 10-5 20 0 10-3 10 6 10-3 20 0 10-8 8 18 8-15 8 5 20 0 10-4 10 8 10-4 20 0 10-5 10 10 10-5 20 0 10-3 10 6 10-3 40 0"/><path d="M0 62h25l10-4 10 8 10-4h25l10-7 10 14 10-7h20l8-7 8 19 8-36 8 62 8-90 8 98 8-67 8 36 8-20 8 9 8-4h25l10-4 10 8 10-4h20l10-6 10 12 10-6h35"/><path opacity=".45" d="M0 100h20l10-5 10 10 10-5h30l10-3 10 6 10-3h25l10-5 10 10 10-5h25l10-7 10 14 10-7h20l10-4 10 8 10-4h30l10-3 10 6 10-3h30"/></g></svg><span class="tile-annotation tile-annotation--bottom">Signal illustration</span></div><span class="project-tile__caption"><span><strong>Epilepsy research</strong><small>iEEG · Master’s thesis</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#vla"><div class="project-tile__visual project-tile__vla" aria-hidden="true"><div class="policy-flow"><svg class="icon"><use href="#i-video"/></svg><span>+</span><span class="policy-prompt">“pick up<br>the bowl”</span><span>→</span><svg class="icon"><use href="#i-robot"/></svg></div><div class="policy-score"><strong>91.0%</strong><span>LIBERO-Goal success</span></div></div><span class="project-tile__caption"><span><strong>Vision → language → action</strong><small>Robot policies · LIBERO</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#dexterous-hand"><div class="project-tile__visual"><video class="project-preview" muted loop playsinline preload="metadata" poster="assets/media/shadow-reorient-first4.jpg" aria-hidden="true" tabindex="-1"><source src="assets/media/shadow-reorient-first4.mp4" type="video/mp4"></video><span class="tile-video-label" aria-hidden="true">↻ VIDEO</span></div><span class="project-tile__caption"><span><strong>Dexterous robot hands</strong><small>MuJoCo · PPO</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#human-video"><div class="project-tile__visual"><video class="project-preview" muted loop playsinline preload="metadata" poster="assets/media/hand-retarget.jpg" aria-hidden="true" tabindex="-1"><source src="assets/media/hand-retarget.mp4" type="video/mp4"></video><span class="tile-video-label" aria-hidden="true">↻ VIDEO</span></div><span class="project-tile__caption"><span><strong>Learning from human video</strong><small>Hand tracking · Imitation</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#isaac-lab"><div class="project-tile__visual"><video class="project-preview" muted loop playsinline preload="metadata" poster="assets/media/isaac-parallel.jpg" aria-hidden="true" tabindex="-1"><source src="assets/media/isaac-parallel.mp4" type="video/mp4"></video><span class="tile-video-label" aria-hidden="true">↻ VIDEO</span></div><span class="project-tile__caption"><span><strong>Learning in Isaac Lab</strong><small>Simulation · Demonstrations</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+<li><a class="project-tile" href="#underwater"><div class="project-tile__visual"><img src="assets/media/reef-after.jpg" alt="Restored underwater footage showing coral on the reef" width="1280" height="720"></div><span class="project-tile__caption"><span><strong>Underwater restoration</strong><small>Computer vision · Diving</small></span><span class="project-tile__arrow" aria-hidden="true">↗</span></span></a></li>
+          </ol></nav>
+        </div>
     </section>
 
     <nav class="subnav" aria-label="On this page">
       <div class="subnav__inner">
         <p class="subnav__label">On this page</p>
         <ul class="subnav__list">
-          <li><a href="#vla">VLA on LIBERO</a></li>
-          <li><a href="#projects">Robot projects</a></li>
-          <li><a href="#clinical">Clinical ML</a></li>
+          <li><a href="#clinical">01 / Epilepsy research</a></li>
+          <li><a href="#vla">02 / Robot learning</a></li>
+          <li><a href="#projects">03 / Projects</a></li>
           <li><a href="#underwater">Side project</a></li>
           <li><a href="#about">About</a></li>
         </ul>
@@ -129,24 +132,68 @@
       </div>
     </nav>
 
-    <!-- At a glance -->
-    <section class="section section--first" aria-labelledby="glance-title">
+    <section class="section section--first" id="clinical" aria-labelledby="clinical-title">
       <div class="container">
         <div class="section-head section-head--split" data-reveal>
-          <div>
-            <p class="kicker">At a glance</p>
-            <h2 id="glance-title">What I <em>work on.</em></h2>
-          </div>
-          <p class="lead">Two threads: robots that learn to manipulate, and machine learning that helps epilepsy surgeons. Both built end to end, with the evaluation designed before the result.</p>
+          <div><p class="kicker">01 / Featured research · KU Leuven</p><h2 id="clinical-title">A clearer picture<br>of <em>epilepsy.</em></h2></div>
+          <p class="lead">From intracranial recordings to interpretable predictions. My master’s thesis explores where seizures begin, and how the model’s ranking relates to seizure freedom after surgery.</p>
         </div>
-        <ul class="tasks tasks--2" data-reveal>
-          <li><a class="task" href="#vla"><span class="task__icon"><svg class="icon" aria-hidden="true"><use href="#i-robot"/></svg></span><span class="task__body"><span class="task__title">A vision-language-action model</span><span class="task__text">SmolVLM2 fine-tuned with LoRA: 91.0% on LIBERO-Goal, tested against a from-scratch baseline.</span></span><span class="task__arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="task" href="#clinical"><span class="task__icon"><svg class="icon" aria-hidden="true"><use href="#i-brain"/></svg></span><span class="task__body"><span class="task__title">Clinical ML on intracranial EEG</span><span class="task__text">Thesis on predicting epilepsy-surgery outcome, from raw recordings to a tool for clinicians.</span></span><span class="task__arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="task" href="#projects"><span class="task__icon"><svg class="icon" aria-hidden="true"><use href="#i-cube"/></svg></span><span class="task__body"><span class="task__title">Dexterous in-hand manipulation</span><span class="task__text">A Shadow Hand in MuJoCo: PPO teacher, DAgger student with touch sensing.</span></span><span class="task__arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="task" href="#projects"><span class="task__icon"><svg class="icon" aria-hidden="true"><use href="#i-hand"/></svg></span><span class="task__body"><span class="task__title">Robot demos from human video</span><span class="task__text">Hand tracking turned into robot demonstrations, stage by stage.</span></span><span class="task__arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="task" href="#projects"><span class="task__icon"><svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg></span><span class="task__body"><span class="task__title">Isaac Lab on a rented GPU</span><span class="task__text">Learning from demonstration with a Franka arm, driven from a laptop.</span></span><span class="task__arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="task" href="#underwater"><span class="task__icon"><svg class="icon" aria-hidden="true"><use href="#i-video"/></svg></span><span class="task__body"><span class="task__title">Restoring underwater video</span><span class="task__text">A side project from diving: veil removal and colour, without flicker.</span></span><span class="task__arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
-        </ul>
+        <div class="result-strip" data-reveal>
+          <div><span class="eyebrow">Localisation / mean AUROC</span><strong>0.878</strong><p>Leave-one-patient-out evaluation on 13 seizure-free patients from UZ Gent.</p></div>
+          <div><span class="eyebrow">Localisation / mean AUPRC</span><strong>0.835</strong><p>Precision–recall performance for the same patient-wise channel-ranking task.</p></div>
+          <div><span class="eyebrow">Surgical outcome / AUROC</span><strong>0.86</strong><p>Resection Alignment Score as the sole predictor of seizure freedom in the 20-patient Gent cohort.</p></div>
+        </div>
+        <div class="clinical-grid" data-reveal>
+          <article class="card card--dark" aria-labelledby="thesis-title">
+            <p class="kicker kicker--light" style="margin:0">My contribution</p>
+            <h3 class="card__title-lg" id="thesis-title">From brain networks<br>to surgical insight.</h3>
+            <p>I developed a pipeline combining signal features with connectivity and graph measures, then ranked electrode channels using a soft-voting ensemble of SVM, random forest, LDA, logistic regression and XGBoost models.</p>
+            <p>I also introduced the <strong>Resection Alignment Score (RAS)</strong>: an interpretable measure of how closely the tissue removed during surgery matches the channels ranked highest by the model.</p>
+            <p class="small">Data from UZ Gent, with additional feature analysis on the public HUP dataset. The headline model results shown here are from Gent.</p>
+            <a class="btn btn--outline-light" href="mailto:tristanengelborghs@icloud.com?subject=Epilepsy%20research">Discuss the research <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </article>
+          <article class="card" aria-labelledby="findings-title">
+            <p class="kicker" style="margin:0">What I found</p><h3 id="findings-title">Connectivity carries the signal.</h3>
+            <ol class="steps" style="width:100%">
+              <li class="step"><span class="step__num">01</span><div><p><strong>Network features were most informative.</strong> wPLI-based connectivity, phase–amplitude coupling and approximate entropy stood out in the feature analysis.</p></div></li>
+              <li class="step"><span class="step__num">02</span><div><p><strong>A compact model was enough.</strong> Five selected features achieved 0.878 mean AUROC. Feature-set variants did not differ significantly after correction.</p></div></li>
+              <li class="step"><span class="step__num">03</span><div><p><strong>Alignment relates to outcome.</strong> Higher RAS values were associated with seizure freedom, while individual exceptions showed the limits of localisation alone.</p></div></li>
+            </ol>
+          </article>
+        </div>
+        <div class="viz-pair" data-reveal>
+          <div class="viz-card">
+            <figure class="viz" id="patient-chart">
+              <figcaption class="viz__head"><span><span class="viz__title">The result behind the average</span><span class="viz__sub">All 13 patients · localisation AUROC</span></span></figcaption>
+              <div class="chart-axis patient-axis" aria-hidden="true"><span>0</span><span>0.5</span><span>1.0</span></div>
+              <div class="patient-bars"><div class="patient-row"><span>P001</span><span class="bar-track"><span style="width:100.0%"></span></span><strong>1.000</strong></div>
+<div class="patient-row"><span>P002</span><span class="bar-track"><span style="width:97.0%"></span></span><strong>0.970</strong></div>
+<div class="patient-row"><span>P003</span><span class="bar-track"><span style="width:4.8%"></span></span><strong>0.048</strong></div>
+<div class="patient-row"><span>P004</span><span class="bar-track"><span style="width:98.6%"></span></span><strong>0.986</strong></div>
+<div class="patient-row"><span>P005</span><span class="bar-track"><span style="width:99.5%"></span></span><strong>0.995</strong></div>
+<div class="patient-row"><span>P006</span><span class="bar-track"><span style="width:97.7%"></span></span><strong>0.977</strong></div>
+<div class="patient-row"><span>P007</span><span class="bar-track"><span style="width:100.0%"></span></span><strong>1.000</strong></div>
+<div class="patient-row"><span>P008</span><span class="bar-track"><span style="width:91.3%"></span></span><strong>0.913</strong></div>
+<div class="patient-row"><span>P009</span><span class="bar-track"><span style="width:85.6%"></span></span><strong>0.856</strong></div>
+<div class="patient-row"><span>P010</span><span class="bar-track"><span style="width:97.9%"></span></span><strong>0.979</strong></div>
+<div class="patient-row"><span>P011</span><span class="bar-track"><span style="width:92.9%"></span></span><strong>0.929</strong></div>
+<div class="patient-row"><span>P012</span><span class="bar-track"><span style="width:98.9%"></span></span><strong>0.989</strong></div>
+<div class="patient-row"><span>P013</span><span class="bar-track"><span style="width:76.7%"></span></span><strong>0.767</strong></div>
+</div>
+              <p class="viz__note">Mean 0.878; individual values range from 0.048 to 1.000. Resection in seizure-free patients serves as a proxy for epileptogenic tissue.</p>
+              <details class="viz-table"><summary>View exact results and evaluation details</summary><div class="table-wrap"><table><thead><tr><th scope="col">Patient</th><th scope="col">AUROC</th><th scope="col">AUPRC</th><th scope="col">P@k</th></tr></thead><tbody><tr><th scope="row">P001</th><td>1.000</td><td>1.000</td><td>1.000</td></tr><tr><th scope="row">P002</th><td>0.970</td><td>0.853</td><td>0.800</td></tr><tr><th scope="row">P003</th><td>0.048</td><td>0.196</td><td>0.000</td></tr><tr><th scope="row">P004</th><td>0.986</td><td>0.917</td><td>0.667</td></tr><tr><th scope="row">P005</th><td>0.995</td><td>0.975</td><td>0.875</td></tr><tr><th scope="row">P006</th><td>0.977</td><td>0.909</td><td>0.750</td></tr><tr><th scope="row">P007</th><td>1.000</td><td>1.000</td><td>1.000</td></tr><tr><th scope="row">P008</th><td>0.913</td><td>0.968</td><td>0.882</td></tr><tr><th scope="row">P009</th><td>0.856</td><td>0.575</td><td>0.667</td></tr><tr><th scope="row">P010</th><td>0.979</td><td>0.898</td><td>0.714</td></tr><tr><th scope="row">P011</th><td>0.929</td><td>0.875</td><td>0.857</td></tr><tr><th scope="row">P012</th><td>0.989</td><td>0.989</td><td>0.889</td></tr><tr><th scope="row">P013</th><td>0.767</td><td>0.700</td><td>0.615</td></tr></tbody></table></div><p class="viz__note">Soft-voting ensemble, leave-one-patient-out validation. Source: master’s thesis, §4.2, Table 4.1, p. 21. P003 is retained in the reported mean.</p></details>
+            </figure>
+          </div>
+          <div class="viz-card">
+            <figure class="viz">
+              <figcaption class="viz__head"><span><span class="viz__title">When is the signal most useful?</span><span class="viz__sub">Mean localisation AUROC by time-window configuration</span></span></figcaption>
+              <div class="chart-axis" aria-hidden="true"><span>0</span><span>0.5</span><span>1.0</span></div>
+              <div class="window-bars"><div class="window-row"><div><span>Peri-onset · final model</span><strong>0.878</strong></div><span class="bar-track"><span style="width:87.8%"></span></span></div><div class="window-row"><div><span>Pre/post-onset</span><strong>0.873</strong></div><span class="bar-track"><span style="width:87.3%"></span></span></div><div class="window-row"><div><span>Interictal</span><strong>0.821</strong></div><span class="bar-track"><span style="width:82.1%"></span></span></div><div class="window-row"><div><span>Pre/post-onset + interictal</span><strong>0.876</strong></div><span class="bar-track"><span style="width:87.6%"></span></span></div><div class="window-row"><div><span>Pre/post-onset + interictal + offset</span><strong>0.883</strong></div><span class="bar-track"><span style="width:88.3%"></span></span></div></div>
+              <p class="viz__note">The peri-onset model is the final baseline. Broader windows reached 0.883, but differences were not statistically significant after Holm correction. Source: Table 4.4, p. 25.</p>
+            </figure>
+            <div class="research-context"><span class="eyebrow">Reading these results</span><p>These are retrospective research results from a small cohort. Performance varied substantially between patients; the resected region is an imperfect reference for the epileptogenic zone.</p><p class="small">Outcome result: §4.6, p. 28. Study limitations: §5.3, p. 33.</p></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -155,7 +202,7 @@
       <div class="container">
         <div class="split">
           <div data-reveal>
-            <p class="kicker">Featured · Vision-language-action</p>
+            <p class="kicker">02 / Robot learning · Vision-language-action</p>
             <h2 id="vla-title">A 500M VLA on <em>LIBERO-Goal.</em></h2>
             <p class="lead" style="margin-top:1.5rem">I turned the SmolVLM2-500M vision-language model into a robot policy. It reads two camera views and a natural-language instruction, then outputs a chunk of continuous arm actions.</p>
             <p class="muted" style="margin-top:1rem">LoRA adapters on the language model's attention train 4.8M of its 465M parameters. Eight learned action queries feed a small regression head, following the OpenVLA-OFT recipe inside my own benchmark harness. It is compared with a 27M ResNet-FiLM policy trained from scratch, on the same 500 initial states.</p>
@@ -208,14 +255,14 @@
       <div class="container">
         <div class="section-head section-head--split" data-reveal>
           <div>
-            <p class="kicker">More robot learning</p>
+            <p class="kicker">03 / More robot learning</p>
             <h2 id="projects-title">Hands, arms and <em>simulators.</em></h2>
           </div>
           <p class="lead">Self-directed projects that each take one part of the manipulation problem. Same habits throughout: per-episode results on disk, ablations run in training and evaluation alike, and tests that run without a GPU.</p>
         </div>
         <ul class="cards cards--3" data-reveal>
           <li>
-            <article class="card card--media" aria-labelledby="p-dex">
+            <article id="dexterous-hand" class="card card--media" aria-labelledby="p-dex">
               <div class="card__media">
                 <video muted loop playsinline preload="none" poster="assets/media/shadow-reorient-first4.jpg" aria-label="Simulated Shadow Hand turning a cube, the first four evaluation episodes">
                   <source src="assets/media/shadow-reorient-first4.mp4" type="video/mp4">
@@ -225,13 +272,13 @@
                 <ul class="tags"><li class="tag">MuJoCo</li><li class="tag">PPO</li><li class="tag">DAgger</li><li class="tag">Touch sensing</li></ul>
                 <h3 id="p-dex">Dexterous in-hand manipulation</h3>
                 <p>A Shadow Hand (24 joints, 20 actuators, tendon-coupled finger joints) reorients a cube through intermittent contact. I built the environment, domain randomisation, fingertip touch sensing and a threaded simulator (about 1,700 control steps per second on an M1 laptop). A PPO teacher trains on privileged state; a DAgger student sees only proprioception, touch and the goal.</p>
-                <p class="fine">Clip: the first four evaluation episodes, unselected (0, 2, 0 and 5 goals). Over 200 episodes the policy averages 1.2 goals per 5 seconds, against 0.34 for random actions. The header clip shows the best 3 of those 200.</p>
+                <p class="fine">Clip: the first four evaluation episodes, unselected (0, 2, 0 and 5 goals). Over 200 episodes the policy averages 1.2 goals per 5 seconds, against 0.34 for random actions.</p>
                 <div class="card__links"><a class="link-arrow" href="https://github.com/tristanengelborghs/robot/tree/main/shadow-mujoco">Code<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
               </div>
             </article>
           </li>
           <li>
-            <article class="card card--media" aria-labelledby="p-hand">
+            <article id="human-video" class="card card--media" aria-labelledby="p-hand">
               <div class="card__media">
                 <video muted loop playsinline preload="none" poster="assets/media/hand-retarget.jpg" aria-label="Tracked hand skeleton on the left and the resulting robot action traces on the right">
                   <source src="assets/media/hand-retarget.mp4" type="video/mp4">
@@ -247,7 +294,7 @@
             </article>
           </li>
           <li>
-            <article class="card card--media" aria-labelledby="p-isaac">
+            <article id="isaac-lab" class="card card--media" aria-labelledby="p-isaac">
               <div class="card__media">
                 <video muted loop playsinline preload="none" poster="assets/media/isaac-parallel.jpg" aria-label="Isaac Lab simulating dozens of Franka arms in parallel on a cloud GPU">
                   <source src="assets/media/isaac-parallel.mp4" type="video/mp4">
@@ -266,87 +313,7 @@
       </div>
     </section>
 
-    <!-- Clinical ML -->
-    <section class="section section--tint" id="clinical" aria-labelledby="clinical-title">
-      <div class="container">
-        <div class="section-head section-head--split" data-reveal>
-          <div>
-            <p class="kicker">Clinical machine learning</p>
-            <h2 id="clinical-title">Epilepsy surgery, <em>measured honestly.</em></h2>
-          </div>
-          <p class="lead">For people with drug-resistant epilepsy, surgery can stop seizures, but only if the region where they start is found and removed. My thesis builds machine learning around the intracranial recordings used to find it.</p>
-        </div>
 
-        <div class="clinical-grid" data-reveal>
-          <article class="card card--dark" aria-labelledby="thesis-title">
-            <p class="kicker kicker--light" style="margin:0">Master's thesis · KU Leuven · 2025–2026</p>
-            <h3 class="card__title-lg" id="thesis-title">Predicting epilepsy-surgery outcome from intracranial EEG</h3>
-            <p>I built the machine-learning workflow for a two-centre clinical study end to end: data management, preprocessing and quality control of intracranial recordings, and model development with masked autoencoders, graph attention networks and attention-based multiple-instance learning. A desktop research application lets clinicians upload recordings, run inference and inspect predictions in interactive 3-D, with saliency maps and electrode-level biomarkers such as high-frequency oscillations, phase–amplitude coupling and connectivity.</p>
-            <ul class="tiles">
-              <li class="tile"><span class="tile__num">2</span><span class="tile__text"><strong>clinical centres</strong>in one reproducible workflow</span></li>
-              <li class="tile"><span class="tile__num">3</span><span class="tile__text"><strong>deep architectures</strong>autoencoders, graph attention, attention-MIL</span></li>
-              <li class="tile"><span class="tile__num">37</span><span class="tile__text"><strong>per-contact markers</strong>in 8 families, each with a surrogate control</span></li>
-              <li class="tile"><span class="tile__num">19</span><span class="tile__text"><strong>studies reviewed</strong>in the thesis literature study, 2013–2025</span></li>
-            </ul>
-            <p class="small" style="display:flex;gap:.6em;align-items:flex-start;margin-top:.5rem"><svg class="icon" aria-hidden="true" style="margin-top:.2em"><use href="#i-lock"/></svg>Code and patient data stay private. Happy to walk through the work in conversation.</p>
-          </article>
-          <article class="card" aria-labelledby="review-title">
-            <p class="kicker" style="margin:0">Literature study</p>
-            <h3 id="review-title">What the field reports, and why to read it carefully</h3>
-            <ol class="steps" style="width:100%">
-              <li class="step"><span class="step__num">01</span><div><p><strong style="color:var(--ink);font-weight:600">Network biomarkers matter.</strong> High-frequency oscillations, phase–amplitude coupling and connectivity track epileptogenic tissue and outcome more closely than older single features.</p></div></li>
-              <li class="step"><span class="step__num">02</span><div><p><strong style="color:var(--ink);font-weight:600">Models trade off.</strong> SVMs and random forests stay transparent; CNNs, recurrent networks and graph networks learn from raw time–frequency and network structure.</p></div></li>
-              <li class="step"><span class="step__num">03</span><div><p><strong style="color:var(--ink);font-weight:600">Reported numbers run high.</strong> Cohorts are small and selected, onset-zone labels are subjective, and patient-wise validation gives lower, more realistic results. Seizure freedom after surgery should be the reference.</p></div></li>
-            </ol>
-          </article>
-        </div>
-
-        <div class="viz-card" id="decoder-card" data-reveal>
-          <figure class="viz" id="decoder-chart">
-            <figcaption class="viz__head">
-              <span>
-                <span class="viz__title">What the pipeline sees in one seizure</span>
-                <span class="viz__sub">Per-contact score over time, from my iEEG pipeline run on its synthetic test cohort</span>
-              </span>
-              <span class="synthetic-badge">Synthetic data · no patients</span>
-            </figcaption>
-            <div class="decoder-host" style="position:relative">
-              <p class="viz-empty">Loading the synthetic example…</p>
-              <div class="viz-tooltip" role="status" aria-live="polite"></div>
-            </div>
-            <p class="viz__note decoder-note"></p>
-          </figure>
-        </div>
-
-        <div class="viz-pair" style="margin-top:clamp(16px,1.6vw,24px)" data-reveal>
-          <div class="viz-card">
-            <figure class="viz" id="lit-chart">
-              <figcaption class="viz__head">
-                <span><span class="viz__title">Reported AUROC in the literature</span><span class="viz__sub">Studies from my thesis that report an AUROC, by year</span></span>
-                <ul class="legend">
-                  <li><span class="sw sw--dot" style="background: var(--series-1)"></span>Onset-zone localisation</li>
-                  <li><span class="sw sw--diamond" style="background: var(--series-2)"></span>Surgical outcome</li>
-                </ul>
-              </figcaption>
-              <div class="lit-host" style="position:relative"><div class="viz-tooltip" role="status" aria-live="polite"></div></div>
-              <p class="viz__note">Numbers as reported; they are not comparable. Cohorts range from 8 patients to around a hundred, often only patients who became seizure-free, and validation schemes differ.</p>
-              <details class="viz-table"><summary>Show as a table</summary><div class="table-wrap"></div></details>
-            </figure>
-          </div>
-          <div class="viz-card">
-            <figure class="viz" id="map-chart">
-              <figcaption class="viz__head">
-                <span><span class="viz__title">Which biomarkers meet which models</span><span class="viz__sub">Number of studies per cell, 19 studies (2013–2025)</span></span>
-                <span class="scale" aria-hidden="true"><span>1</span><span class="scale__bar" style="width:90px;background:linear-gradient(90deg,#86b6ef,#3987e5,#184f95)"></span><span>3</span></span>
-              </figcaption>
-              <div class="map-host" style="position:relative"><div class="viz-tooltip" role="status" aria-live="polite"></div></div>
-              <p class="viz__note">My grouping of the studies in the thesis tables; a study that uses several biomarkers or models appears in several cells. SVMs dominate the classic biomarkers, while deep learning arrives with directed connectivity, coupling and evoked responses.</p>
-              <details class="viz-table"><summary>Show as a table</summary><div class="table-wrap"></div></details>
-            </figure>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Side project -->
     <section class="section" id="underwater" aria-labelledby="uw-title">
@@ -424,7 +391,7 @@
         </div>
         <div>
           <p class="footer__title">On this page</p>
-          <ul class="footer__list"><li><a href="#vla">VLA on LIBERO</a></li><li><a href="#projects">Robot projects</a></li><li><a href="#clinical">Clinical ML</a></li><li><a href="#underwater">Side project</a></li></ul>
+          <ul class="footer__list"><li><a href="#clinical">Epilepsy research</a></li><li><a href="#vla">VLA on LIBERO</a></li><li><a href="#projects">Robot projects</a></li><li><a href="#underwater">Side project</a></li></ul>
         </div>
         <div>
           <p class="footer__title">Code</p>
@@ -442,6 +409,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/site.js?v=7" defer></script>
+  <script src="assets/js/site.js?v=22" defer></script>
 </body>
 </html>

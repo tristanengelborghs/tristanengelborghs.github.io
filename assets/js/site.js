@@ -90,6 +90,257 @@
     go();
   }
 
+  // ---------- Hero artwork ----------
+  // A small neural network drawn as string art. Seven rings of neurons sit on one
+  // axis, wide → bottleneck → wide like an autoencoder, and every neuron is laced
+  // to the next ring with straight threads. The rings sway against each other so
+  // the lacing twists and relaxes, the form turns slowly, and pulses of activation
+  // merge on the way into the bottleneck and fan out again on the way out.
+  (function () {
+    var figure = document.querySelector(".hero-network");
+    var canvas = figure && figure.querySelector("canvas");
+    var ctx = canvas && canvas.getContext && canvas.getContext("2d");
+    if (!ctx) return;
+    var toggle = figure.querySelector(".signal-toggle");
+
+    var TAU = Math.PI * 2;
+    var RADII = [1.08, 0.84, 0.57, 0.32, 0.57, 0.84, 1.08];
+    var PER_RING = 30, LACE = 3, MID = 3;
+    var SPAN = 2.3, CAMERA = 5.5;
+    var BASE = { yaw: -0.5, pitch: -0.12, roll: -0.06 };
+    var OUTLINE = "112,114,103", NODE = [53, 53, 47], BRAND = [164, 69, 42], GLOW = "217,157,130";
+
+    var layers = [], nodes = [], edges = [], signals = [], ripples = [];
+    RADII.forEach(function (r, l) {
+      var ring = [];
+      for (var i = 0; i < PER_RING; i++) {
+        var n = { l: l, a: TAU * i / PER_RING, r: r, x: SPAN * (l / (RADII.length - 1) - 0.5), act: 0, out: [], vx: 0, vy: 0, vz: 0, px: 0, py: 0, d: 0 };
+        ring.push(n); nodes.push(n);
+      }
+      layers.push(ring);
+    });
+    // Each neuron is laced to two neurons of the next ring, a few places either side:
+    // the crossing threads trace hyperboloids, like a string sculpture.
+    layers.slice(0, -1).forEach(function (ring, l) {
+      ring.forEach(function (n, i) {
+        [-LACE, LACE].forEach(function (o) {
+          var e = { a: n, b: layers[l + 1][(i + o + PER_RING) % PER_RING], heat: 0 };
+          n.out.push(e); edges.push(e);
+        });
+      });
+    });
+    var order = nodes.slice();
+    function mix(a, b, u) { return a.map(function (c, i) { return Math.round(c + (b[i] - c) * u); }); }
+    // Threads shade from sage at the input, through grey at the bottleneck, to terracotta at the output.
+    var SAGE = [82, 116, 107], GREY = [112, 114, 103], CLAY = [158, 88, 64];
+    var TINTS = layers.slice(0, -1).map(function (ring, l) {
+      var t = 2 * l / (layers.length - 2);
+      return (t < 1 ? mix(SAGE, GREY, t) : mix(GREY, CLAY, t - 1)).join(",");
+    });
+
+    // Camera: yaw about the vertical axis, then pitch, then roll in the picture plane.
+    var cy, sy, cp, sp, cr, sr, k = 1, ox = 0, oy = 0, W = 0, H = 0;
+    function aimCamera(yaw, pitch) {
+      cy = Math.cos(yaw); sy = Math.sin(yaw); cp = Math.cos(pitch); sp = Math.sin(pitch);
+      cr = Math.cos(BASE.roll); sr = Math.sin(BASE.roll);
+    }
+    function toView(x, y, z, o) {
+      var x1 = x * cy + z * sy, z1 = z * cy - x * sy;
+      var y1 = y * cp - z1 * sp;
+      o.vx = x1 * cr - y1 * sr; o.vy = x1 * sr + y1 * cr; o.vz = y * sp + z1 * cp;
+    }
+    function toScreen(o) {
+      var s = CAMERA / (CAMERA - o.vz);
+      o.px = ox + o.vx * s * k; o.py = oy - o.vy * s * k;
+    }
+    // Scale the form to the canvas once per size; the rings keep their outline as they turn.
+    function fit() {
+      var p = {}, x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+      aimCamera(BASE.yaw, BASE.pitch);
+      RADII.forEach(function (r, l) {
+        for (var i = 0; i < 48; i++) {
+          toView(SPAN * (l / (RADII.length - 1) - 0.5), r * Math.cos(TAU * i / 48), r * Math.sin(TAU * i / 48), p);
+          var s = CAMERA / (CAMERA - p.vz);
+          x0 = Math.min(x0, p.vx * s); x1 = Math.max(x1, p.vx * s);
+          y0 = Math.min(y0, p.vy * s); y1 = Math.max(y1, p.vy * s);
+        }
+      });
+      k = Math.min(W * 0.88 / (x1 - x0), H * 0.88 / (y1 - y0));
+      ox = W / 2 - k * (x0 + x1) / 2; oy = H / 2 + k * (y0 + y1) / 2;
+    }
+
+    var clock = 0, nextWave = 0, look = { yaw: 0, pitch: 0 }, aim = { yaw: 0, pitch: 0 };
+    function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+    function launch(e) { signals.push({ e: e, t: 0, dur: 0.75 + Math.random() * 0.45 }); }
+    function step(dt) {
+      clock += dt;
+      if (clock >= nextWave) {
+        nextWave = clock + 1.4 + Math.random() * 1.6;
+        for (var i = 0, count = 2 + Math.floor(Math.random() * 3); i < count; i++) {
+          var input = pick(layers[0]);
+          input.act = 1; launch(pick(input.out));
+        }
+      }
+      for (var j = signals.length - 1; j >= 0; j--) {
+        var sg = signals[j];
+        if ((sg.t += dt / sg.dur) < 1) continue;
+        signals.splice(j, 1);
+        var n = sg.e.b, merged = n.l <= MID && n.act > 0.6;
+        sg.e.heat = 1; n.act = 1;
+        if (!n.out.length) { ripples.push({ n: n, age: 0 }); continue; }
+        if (merged) continue;
+        launch(pick(n.out));
+        if (n.l >= MID && signals.length < 48 && Math.random() < 0.5) launch(pick(n.out));
+      }
+      var fade = Math.exp(-dt / 0.55), cool = Math.exp(-dt / 1.1), follow = 1 - Math.exp(-dt * 2.2);
+      nodes.forEach(function (n) { n.act *= fade; });
+      edges.forEach(function (e) { e.heat *= cool; });
+      ripples = ripples.filter(function (r) { return (r.age += dt) < 1.2; });
+      look.yaw += (aim.yaw - look.yaw) * follow;
+      look.pitch += (aim.pitch - look.pitch) * follow;
+    }
+
+    function ease(t) { return t * t * (3 - 2 * t); }
+    var head = {}, tail = {};
+    function along(e, t, o) {
+      o.vx = e.a.vx + (e.b.vx - e.a.vx) * t;
+      o.vy = e.a.vy + (e.b.vy - e.a.vy) * t;
+      o.vz = e.a.vz + (e.b.vz - e.a.vz) * t;
+      toScreen(o);
+    }
+    function dot(x, y, r) { ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill(); }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      aimCamera(BASE.yaw + look.yaw + 0.12 * Math.sin(clock * 0.09), BASE.pitch + look.pitch + 0.06 * Math.sin(clock * 0.07 + 1));
+      var spin = clock * TAU / 70, z0 = Infinity, z1 = -Infinity;
+      nodes.forEach(function (n) {
+        var th = n.a + spin + 0.32 * Math.sin(clock * 0.3 + n.l * 0.8);
+        toView(n.x, n.r * Math.cos(th), n.r * Math.sin(th), n);
+        toScreen(n);
+        z0 = Math.min(z0, n.vz); z1 = Math.max(z1, n.vz);
+      });
+      nodes.forEach(function (n) { n.d = (n.vz - z0) / (z1 - z0 || 1); });
+
+      // A faint outline for each layer's ring.
+      var p = {};
+      ctx.lineWidth = 0.6;
+      ctx.strokeStyle = "rgba(" + OUTLINE + ",.14)";
+      ctx.beginPath();
+      layers.forEach(function (ring) {
+        for (var i = 0; i <= 64; i++) {
+          toView(ring[0].x, ring[0].r * Math.cos(TAU * i / 64), ring[0].r * Math.sin(TAU * i / 64), p);
+          toScreen(p);
+          if (i) ctx.lineTo(p.px, p.py); else ctx.moveTo(p.px, p.py);
+        }
+      });
+      ctx.stroke();
+
+      // Threads, batched by layer and depth band: far ones fainter.
+      var BANDS = 5, groups = [];
+      edges.forEach(function (e) {
+        var key = e.a.l * BANDS + Math.min(BANDS - 1, Math.floor((e.a.d + e.b.d) / 2 * BANDS));
+        (groups[key] || (groups[key] = [])).push(e);
+      });
+      ctx.lineWidth = 0.6;
+      groups.forEach(function (group, key) {
+        ctx.strokeStyle = "rgba(" + TINTS[Math.floor(key / BANDS)] + "," + (0.05 + 0.2 * (key % BANDS) / (BANDS - 1)) + ")";
+        ctx.beginPath();
+        group.forEach(function (e) { ctx.moveTo(e.a.px, e.a.py); ctx.lineTo(e.b.px, e.b.py); });
+        ctx.stroke();
+      });
+      // Threads that just carried a pulse keep a warm trace.
+      edges.forEach(function (e) {
+        if (e.heat < 0.02) return;
+        ctx.strokeStyle = "rgba(" + BRAND + "," + (e.heat * 0.45) + ")";
+        ctx.beginPath(); ctx.moveTo(e.a.px, e.a.py); ctx.lineTo(e.b.px, e.b.py); ctx.stroke();
+      });
+
+      // Neurons, far to near; active ones warm up and glow.
+      order.sort(function (a, b) { return a.vz - b.vz; });
+      order.forEach(function (n) {
+        var r = (0.6 + 1.1 * n.d) * (1 + n.act), base = 0.2 + 0.55 * n.d;
+        if (n.act > 0.03) { ctx.fillStyle = "rgba(" + GLOW + "," + (0.3 * n.act) + ")"; dot(n.px, n.py, r * 3.2); }
+        ctx.fillStyle = "rgba(" + mix(NODE, BRAND, n.act) + "," + (base + (1 - base) * n.act) + ")";
+        dot(n.px, n.py, r);
+      });
+
+      // Pulses with short fading tails.
+      ctx.lineWidth = 1.4;
+      signals.forEach(function (sg) {
+        along(sg.e, ease(Math.max(0, sg.t - 0.32)), tail);
+        along(sg.e, ease(sg.t), head);
+        var g = ctx.createLinearGradient(tail.px, tail.py, head.px, head.py);
+        g.addColorStop(0, "rgba(" + BRAND + ",0)");
+        g.addColorStop(1, "rgba(" + BRAND + ",.9)");
+        ctx.strokeStyle = g;
+        ctx.beginPath(); ctx.moveTo(tail.px, tail.py); ctx.lineTo(head.px, head.py); ctx.stroke();
+        ctx.fillStyle = "rgba(" + GLOW + ",.35)"; dot(head.px, head.py, 4.5);
+        ctx.fillStyle = "rgb(" + BRAND + ")"; dot(head.px, head.py, 1.8);
+      });
+
+      // Output neurons ring out when a pulse arrives.
+      ctx.lineWidth = 0.8;
+      ripples.forEach(function (rp) {
+        var t = rp.age / 1.2;
+        ctx.strokeStyle = "rgba(" + BRAND + "," + (0.4 * (1 - t)) + ")";
+        ctx.beginPath(); ctx.arc(rp.n.px, rp.n.py, 2.5 + 9 * ease(t), 0, TAU); ctx.stroke();
+      });
+    }
+
+    var running = false, paused = false, visible = true, raf = 0, last = 0;
+    function frame(now) {
+      var dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
+      last = now;
+      step(dt); draw();
+      if (running) raf = requestAnimationFrame(frame);
+    }
+    function sync() {
+      var go = visible && !paused && !reduceMotion;
+      if (go === running) return;
+      running = go;
+      if (go) { last = 0; raf = requestAnimationFrame(frame); }
+      else cancelAnimationFrame(raf);
+    }
+    function resize() {
+      var w = canvas.clientWidth, h = canvas.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (!w || !h || (w === W && h === H)) return;
+      W = w; H = h;
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      fit();
+      if (!running) draw();
+    }
+
+    // Start mid-thought, so the first frame (and the reduced-motion still) is already alive.
+    for (var i = 0; i < 180; i++) step(1 / 60);
+    if ("ResizeObserver" in window) new ResizeObserver(resize).observe(canvas);
+    else window.addEventListener("resize", resize);
+    resize();
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) { visible = entries[entries.length - 1].isIntersecting; sync(); }).observe(canvas);
+    }
+    sync();
+
+    // The form leans gently towards the pointer.
+    var hero = figure.closest(".hero");
+    if (hero && !reduceMotion && window.matchMedia && window.matchMedia("(pointer: fine)").matches) {
+      hero.addEventListener("pointermove", function (e) {
+        var r = hero.getBoundingClientRect();
+        aim.yaw = ((e.clientX - r.left) / r.width - 0.5) * 0.24;
+        aim.pitch = ((e.clientY - r.top) / r.height - 0.5) * 0.16;
+      });
+      hero.addEventListener("pointerleave", function () { aim.yaw = aim.pitch = 0; });
+    }
+
+    // Decorative animation has its own pause control.
+    if (toggle) toggle.addEventListener("click", function () {
+      paused = !paused;
+      toggle.querySelector("path").setAttribute("d", paused ? "M7 4l8 6-8 6Z" : "M7 5v10M13 5v10");
+      toggle.setAttribute("aria-label", (paused ? "Play" : "Pause") + " animated graphic");
+      sync();
+    });
+  })();
+
   // ---------- Reveal on scroll ----------
   var reveals = document.querySelectorAll("[data-reveal]");
   if (!reduceMotion && "IntersectionObserver" in window) {
@@ -187,293 +438,6 @@
     buildTable(libero.querySelector(".table-wrap"), ["Task", "VLA", "Baseline", "Δ"], rows);
   }
 
-  // ---------- Literature: reported AUROC (from the thesis, tables 3.1-3.2 and text) ----------
-  var LIT = [
-    { study: "Varatharajah et al.", year: 2018, marker: "HFOs, spikes and PAC ratios", model: "SVM (RBF)", soz: 0.79 },
-    { study: "Akter et al.", year: 2020, marker: "Entropy of high-frequency sub-bands", model: "Sparse LDA", soz: 0.86, note: "8 patients" },
-    { study: "Wang & Li", year: 2020, marker: "Phase-amplitude coupling patterns", model: "CNN", soz: 0.88 },
-    { study: "Jiang et al.", year: 2022, marker: "Directional, cross-frequency connectivity", model: "Random forest", soz: 0.94, outcome: 0.93 },
-    { study: "Miao et al.", year: 2023, marker: "Low-frequency to HFO coupling", model: "SVM, CNN", soz: 0.915 },
-    { study: "Balaji & Parhi", year: 2024, marker: "Graph centrality of effective connectivity", model: "SVM, MLP", soz: 0.93 },
-    { study: "Dimakopoulos et al.", year: 2024, marker: "Removal of the HFO area", model: "Automated HFO detector", outcome: 0.83 },
-    { study: "Chen et al.", year: 2025, marker: "Causal influence index (transfer entropy)", model: "Random forest, logistic regression", soz: 0.90 },
-    { study: "Ivankovic et al.", year: 2025, marker: "Connectivity at seizure onset", model: "SVM", outcome: 0.903 },
-    { study: "Pilet et al.", year: 2025, marker: "AEC, PLV, graph measures, spikes, HFOs", model: "Gaussian SVM", soz: 0.91 },
-    { study: "Partamian et al.", year: 2025, marker: "DMD spectral power, theta band", model: "DMD + NNMF; SVM", soz: 0.74, outcome: 0.85 }
-  ];
-  var litFig = document.getElementById("lit-chart");
-  if (litFig) {
-    var litHost = litFig.querySelector(".lit-host");
-    var tipLit = Tooltip(litHost);
-    var X0 = 0.7, X1 = 1.0;
-    responsive(litHost, function (W) {
-      var old = litHost.querySelector("svg"); if (old) old.remove();
-      var stacked = W < 520;
-      var labelW = stacked ? 0 : Math.max(150, Math.min(250, W * 0.46));
-      var right = 18, top = 8, rowH = stacked ? 54 : 44, axisH = 30;
-      var plotW = Math.max(120, W - labelW - right - (stacked ? 8 : 0));
-      var H = top + LIT.length * rowH + axisH;
-      var s = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, class: "viz-svg", role: "img",
-        "aria-label": "Dot plot of AUROC values reported by eleven studies between 2018 and 2025, from 0.74 to 0.94" });
-      function x(v) { return labelW + (stacked ? 8 : 0) + (v - X0) / (X1 - X0) * plotW; }
-      [0.7, 0.8, 0.9, 1.0].forEach(function (t, i) {
-        s.appendChild(svg("line", { class: "grid", x1: x(t), x2: x(t), y1: top, y2: top + LIT.length * rowH }));
-        var tx = svg("text", { class: "tick", x: x(t), y: H - 8, "text-anchor": i === 0 ? "start" : (i === 3 ? "end" : "middle") }, t.toFixed(2));
-        s.appendChild(tx);
-      });
-      LIT.forEach(function (d, i) {
-        var cy = stacked ? top + i * rowH + 36 : top + i * rowH + rowH / 2;
-        if (stacked) {
-          s.appendChild(svg("text", { class: "row-label", x: 0, y: top + i * rowH + 16 }, d.study + " " + d.year));
-        } else {
-          s.appendChild(svg("text", { class: "row-label", x: 0, y: cy - 3 }, d.study + " " + d.year));
-          var maxc = Math.max(12, Math.floor((labelW - 14) / 6.5));
-          var sub = d.marker.length > maxc ? d.marker.slice(0, maxc - 1).replace(/[ ,]+$/, "") + "…" : d.marker;
-          s.appendChild(svg("text", { class: "row-sub", x: 0, y: cy + 14 }, sub));
-        }
-        if (d.soz != null && d.outcome != null) {
-          s.appendChild(svg("line", { class: "link", x1: x(d.soz), x2: x(d.outcome), y1: cy, y2: cy }));
-        }
-        [["soz", "Onset-zone localisation", "var(--series-1)"], ["outcome", "Surgical outcome", "var(--series-2)"]].forEach(function (k) {
-          var v = d[k[0]];
-          if (v == null) return;
-          var cx = x(v);
-          var mark = k[0] === "soz"
-            ? svg("circle", { class: "mark", cx: cx, cy: cy, r: 6.5, fill: k[2] })
-            : svg("rect", { class: "mark", x: cx - 6, y: cy - 6, width: 12, height: 12, rx: 2, fill: k[2], transform: "rotate(45 " + cx + " " + cy + ")" });
-          s.appendChild(mark);
-          var hit = svg("circle", { class: "hit", cx: cx, cy: cy, r: 14, tabindex: 0, role: "img",
-            "aria-label": d.study + " " + d.year + ", " + k[1] + ": AUROC " + v.toFixed(v * 1000 % 10 ? 3 : 2) });
-          hit._d = d; hit._k = k; hit._v = v;
-          s.appendChild(hit);
-        });
-      });
-      litHost.insertBefore(s, litHost.firstChild);
-    });
-    function showLit(hit, cx, cy) {
-      var d = hit._d, k = hit._k, v = hit._v;
-      tipLit.show(function (tip) {
-        tip.appendChild(el("div", "tt-title", d.study + " (" + d.year + ")"));
-        ttRow(tip, k[2], "AUROC " + v.toFixed(v * 1000 % 10 ? 3 : 2), k[1]);
-        tip.appendChild(el("div", "tt-name", d.marker + " · " + d.model + (d.note ? " · " + d.note : "")));
-      }, cx, cy, hit);
-    }
-    litHost.addEventListener("pointermove", function (e) {
-      if (e.target._d) showLit(e.target, e.clientX, e.clientY); else tipLit.hide();
-    });
-    litHost.addEventListener("pointerleave", tipLit.hide);
-    litHost.addEventListener("focusin", function (e) { if (e.target._d) showLit(e.target); });
-    litHost.addEventListener("focusout", tipLit.hide);
-    buildTable(litFig.querySelector(".table-wrap"), ["Study", "Year", "Biomarker", "Model", "Onset zone", "Outcome"],
-      LIT.map(function (d) {
-        return [d.study, String(d.year), d.marker, d.model, d.soz != null ? String(d.soz) : "–", d.outcome != null ? String(d.outcome) : "–"];
-      }));
-  }
-
-  // ---------- Literature: biomarker x model map (19 studies, thesis tables 3.1-3.2) ----------
-  var MAP_ROWS = ["Functional connectivity", "Directed connectivity", "Phase-amplitude coupling", "High-frequency oscillations", "Spikes and ictal patterns", "Spectral and entropy", "Evoked responses"];
-  var MAP_COLS = ["SVM", "Linear & tree", "Deep learning"];
-  var MAP = [
-    [["Antony 2013", "Ivankovic 2025", "Pilet 2025"], [], []],
-    [["Johnson 2023", "Balaji & Parhi 2024"], ["Jiang 2022", "Chen 2025"], ["Balaji & Parhi 2024", "Wang 2024"]],
-    [["Varatharajah 2018", "Miao 2023"], ["Elahian 2017"], ["Wang & Li 2020", "Miao 2023"]],
-    [["Varatharajah 2018", "Lai 2020", "Pilet 2025"], ["Besheli 2022"], []],
-    [["Grinenko 2018", "Varatharajah 2018", "Pilet 2025"], [], []],
-    [["Zhao 2023", "Partamian 2025"], ["Partamian 2025"], ["Zhao 2023", "Yan 2024"]],
-    [[], [], ["Johnson 2022", "Yan 2024"]]
-  ];
-  var ORDINAL = ["#86b6ef", "#3987e5", "#184f95"];
-  var mapFig = document.getElementById("map-chart");
-  if (mapFig) {
-    var mapHost = mapFig.querySelector(".map-host");
-    var tipM = Tooltip(mapHost);
-    responsive(mapHost, function (W) {
-      var old = mapHost.querySelector("svg"); if (old) old.remove();
-      var narrow = W < 560;
-      var labelW = narrow ? Math.max(130, W * 0.43) : Math.max(130, Math.min(210, W * 0.42));
-      var cellW = Math.max(52, (W - labelW) / MAP_COLS.length);
-      var twoLine = cellW < 112;
-      var headH = twoLine ? 52 : 34, gap = 2;
-      var cellH = narrow ? 52 : 46;
-      var H = headH + MAP_ROWS.length * cellH + 4;
-      var s = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, class: "viz-svg", role: "img",
-        "aria-label": "Heatmap counting studies per biomarker family and model family" });
-      function lines(text, max) {
-        var words = text.split(" "), out = [], cur = "";
-        words.forEach(function (w) {
-          if (cur && (cur + " " + w).length > max) { out.push(cur); cur = w; } else { cur = cur ? cur + " " + w : w; }
-        });
-        if (cur) out.push(cur);
-        return out;
-      }
-      function multiText(cls, x, y, parts, anchor, lh) {
-        var tx = svg("text", { class: cls, x: x, y: y, "text-anchor": anchor || "start" });
-        parts.forEach(function (p, k) { tx.appendChild(svg("tspan", { x: x, dy: k ? lh : 0 }, p)); });
-        return tx;
-      }
-      MAP_COLS.forEach(function (c, j) {
-        var parts = twoLine ? lines(c, 8) : [c];
-        s.appendChild(multiText("group-label", labelW + j * cellW + cellW / 2, parts.length > 1 ? 18 : (twoLine ? 36 : 20), parts, "middle", 17));
-      });
-      MAP_ROWS.forEach(function (r, i) {
-        var y = headH + i * cellH;
-        var rparts = narrow ? lines(r, Math.max(10, Math.floor(labelW / 8.4))) : [r];
-        s.appendChild(multiText("row-label", 0, y + cellH / 2 + 5 - (rparts.length - 1) * 8.5, rparts, "start", 17));
-        MAP_COLS.forEach(function (c, j) {
-          var studies = MAP[i][j], n = studies.length;
-          var x = labelW + j * cellW;
-          var fill = n ? ORDINAL[Math.min(n, 3) - 1] : cssVar("--cool-100") || "#f1f5f9";
-          s.appendChild(svg("rect", { class: "cell", x: x + gap / 2, y: y + gap / 2, width: cellW - gap, height: cellH - gap, rx: 6, fill: fill }));
-          var txt = svg("text", { class: "cell-num", x: x + cellW / 2, y: y + cellH / 2 + 5, "text-anchor": "middle",
-            style: "fill:" + (n >= 2 ? "#ffffff" : (n === 1 ? "#0f172a" : "#64748b")) }, n ? String(n) : "–");
-          s.appendChild(txt);
-          var hit = svg("rect", { class: "hit", x: x, y: y, width: cellW, height: cellH, tabindex: 0, role: "img",
-            "aria-label": r + " with " + c + ": " + n + (n === 1 ? " study" : " studies") + (n ? " (" + studies.join(", ") + ")" : "") });
-          hit._m = { r: r, c: c, studies: studies };
-          s.appendChild(hit);
-        });
-      });
-      mapHost.insertBefore(s, mapHost.firstChild);
-    });
-    function showMap(hit, cx, cy) {
-      var m = hit._m;
-      tipM.show(function (tip) {
-        tip.appendChild(el("div", "tt-title", m.r + " · " + m.c));
-        ttRow(tip, null, m.studies.length + (m.studies.length === 1 ? " study" : " studies"), "");
-        if (m.studies.length) tip.appendChild(el("div", "tt-name", m.studies.join(", ")));
-      }, cx, cy, hit);
-    }
-    mapHost.addEventListener("pointermove", function (e) { if (e.target._m) showMap(e.target, e.clientX, e.clientY); else tipM.hide(); });
-    mapHost.addEventListener("pointerleave", tipM.hide);
-    mapHost.addEventListener("focusin", function (e) { if (e.target._m) showMap(e.target); });
-    mapHost.addEventListener("focusout", tipM.hide);
-    buildTable(mapFig.querySelector(".table-wrap"), ["Biomarker family"].concat(MAP_COLS),
-      MAP_ROWS.map(function (r, i) {
-        return [r].concat(MAP[i].map(function (st) { return st.length ? st.length + " (" + st.join(", ") + ")" : "–"; }));
-      }));
-  }
-
-  // ---------- Decoder heatmap: the iEEG pipeline on its synthetic test cohort ----------
-  var RAMP = ["#eef4fd", "#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b"];
-  function hexToRgb(h) { var n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
-  var RAMP_RGB = RAMP.map(hexToRgb);
-  function rampColor(v) {
-    v = Math.max(0, Math.min(1, v));
-    var p = v * (RAMP_RGB.length - 1), i = Math.min(Math.floor(p), RAMP_RGB.length - 2), f = p - i;
-    var a = RAMP_RGB[i], b = RAMP_RGB[i + 1];
-    return "rgb(" + Math.round(a[0] + (b[0] - a[0]) * f) + "," + Math.round(a[1] + (b[1] - a[1]) * f) + "," + Math.round(a[2] + (b[2] - a[2]) * f) + ")";
-  }
-  var decFig = document.getElementById("decoder-chart");
-  if (decFig) {
-    var decHost = decFig.querySelector(".decoder-host");
-    var tipD = Tooltip(decHost);
-    fetch("assets/data/decoder_demo.json").then(function (r) {
-      if (!r.ok) throw new Error(r.status);
-      return r.json();
-    }).then(function (D) {
-      var empty = decHost.querySelector(".viz-empty"); if (empty) empty.remove();
-      var N = D.contacts.length, T = D.times.length, F = (D.families || []).length;
-      responsive(decHost, function (W) {
-        var old = decHost.querySelector("svg"); if (old) old.remove();
-        var labelW = 64, gapMid = F ? 22 : 0, famW = F ? Math.min(46, Math.max(26, W * 0.06)) : 0;
-        var headH = F ? 74 : 12, axisH = 44;
-        var mainW = Math.max(160, W - labelW - gapMid - famW * F - 6);
-        var rowH = Math.max(9, Math.min(16, 460 / N));
-        var H = headH + N * rowH + axisH;
-        var cw = mainW / T;
-        var t0 = D.times[0], t1 = D.times[T - 1];
-        var s = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, class: "viz-svg", role: "img",
-          "aria-label": "Heatmap of per-contact scores over time around a synthetic seizure onset, with planted onset-zone contacts marked" });
-        function xt(t) { return labelW + (t - t0) / (t1 - t0 || 1) * (mainW - cw) + cw / 2; }
-        // time matrix
-        var g = svg("g");
-        for (var i = 0; i < N; i++) {
-          var y = headH + i * rowH;
-          for (var j = 0; j < T; j++) {
-            g.appendChild(svg("rect", { x: labelW + j * cw, y: y, width: cw + 0.6, height: rowH - (rowH > 11 ? 1 : 0), fill: rampColor(D.time_matrix[i][j]) }));
-          }
-          var lab = svg("text", { class: "row-label", x: labelW - 8, y: y + rowH / 2 + 4, "text-anchor": "end", style: "font-size:" + Math.min(13, rowH - 1) + "px" }, D.contacts[i]);
-          s.appendChild(lab);
-          if (D.soz[i]) {
-            var cy = y + rowH / 2, cx = 7, a = Math.min(5, rowH / 2 - 1);
-            s.appendChild(svg("rect", { class: "soz-mark", x: cx - a, y: cy - 1.2, width: 2 * a, height: 2.4 }));
-            s.appendChild(svg("rect", { class: "soz-mark", x: cx - 1.2, y: cy - a, width: 2.4, height: 2 * a }));
-          }
-        }
-        s.appendChild(g);
-        // onset line
-        if (t0 <= 0 && t1 >= 0) {
-          s.appendChild(svg("line", { class: "onset", x1: xt(0), x2: xt(0), y1: headH - 6, y2: headH + N * rowH }));
-          s.appendChild(svg("text", { class: "tick", x: xt(0) + 5, y: headH - 8 }, "onset"));
-        }
-        // family columns
-        if (F) {
-          var fx0 = labelW + mainW + gapMid;
-          D.families.forEach(function (f, k) {
-            var fx = fx0 + k * famW;
-            var tl = svg("text", { class: "tick", x: 0, y: 0, transform: "translate(" + (fx + famW / 2 + 4) + "," + (headH - 8) + ") rotate(-55)" }, f);
-            s.appendChild(tl);
-            for (var i2 = 0; i2 < N; i2++) {
-              s.appendChild(svg("rect", { x: fx + 1, y: headH + i2 * rowH, width: famW - 2, height: rowH - (rowH > 11 ? 1 : 0), fill: rampColor(D.family_scores[i2][k]) }));
-            }
-          });
-        }
-        // time axis
-        var span = t1 - t0, step = span > 60 ? 20 : (span > 24 ? 10 : 5);
-        for (var t = Math.ceil(t0 / step) * step; t <= t1 + 1e-9; t += step) {
-          s.appendChild(svg("text", { class: "tick", x: xt(t), y: headH + N * rowH + 18, "text-anchor": "middle" }, String(Math.round(t))));
-        }
-        s.appendChild(svg("text", { class: "tick", x: labelW + mainW / 2, y: H - 4, "text-anchor": "middle" }, "time from onset (s)"));
-        // hit layer: one transparent rect over the whole plot, cell found from the pointer
-        var hit = svg("rect", { class: "hit", x: labelW, y: headH, width: mainW + gapMid + famW * F, height: N * rowH, tabindex: 0,
-          "aria-label": "Heatmap cells. Use the table below for values." });
-        hit._geo = { labelW: labelW, headH: headH, rowH: rowH, cw: cw, mainW: mainW, gapMid: gapMid, famW: famW };
-        s.appendChild(hit);
-        decHost.insertBefore(s, decHost.firstChild);
-      });
-      decHost.addEventListener("pointermove", function (e) {
-        var h = e.target._geo;
-        if (!h) { tipD.hide(); return; }
-        var r = e.target.getBoundingClientRect();
-        var px = e.clientX - r.left, py = e.clientY - r.top;
-        var i = Math.floor(py / h.rowH);
-        if (i < 0 || i >= N) { tipD.hide(); return; }
-        if (px < h.mainW) {
-          var j = Math.min(T - 1, Math.max(0, Math.floor(px / h.cw)));
-          tipD.show(function (tip) {
-            tip.appendChild(el("div", "tt-title", D.contacts[i] + (D.soz[i] ? " · planted onset zone" : "")));
-            ttRow(tip, rampColor(D.time_matrix[i][j]), D.time_matrix[i][j].toFixed(2), "score at t = " + D.times[j].toFixed(1) + " s");
-          }, e.clientX, e.clientY);
-        } else if (F && px > h.mainW + h.gapMid) {
-          var k = Math.min(F - 1, Math.floor((px - h.mainW - h.gapMid) / h.famW));
-          tipD.show(function (tip) {
-            tip.appendChild(el("div", "tt-title", D.contacts[i] + (D.soz[i] ? " · planted onset zone" : "")));
-            ttRow(tip, rampColor(D.family_scores[i][k]), D.family_scores[i][k].toFixed(2), D.families[k]);
-          }, e.clientX, e.clientY);
-        } else tipD.hide();
-      });
-      decHost.addEventListener("pointerleave", tipD.hide);
-      var note = decFig.querySelector(".decoder-note");
-      if (note && D.caption) note.textContent = D.caption;
-      if (D.legend !== false) {
-        var lg = el("ul", "legend");
-        lg.style.marginTop = "1rem";
-        var li1 = el("li"); var sc = el("span", "scale"); sc.appendChild(el("span", null, "0")); sc.appendChild(el("span", "scale__bar")); sc.appendChild(el("span", null, "1 (within recording)")); li1.appendChild(sc); lg.appendChild(li1);
-        var li2 = el("li"); li2.appendChild(el("span", "sw sw--plus")); li2.appendChild(document.createTextNode("planted onset-zone contact")); lg.appendChild(li2);
-        var li3 = el("li"); li3.appendChild(el("span", "sw sw--line")); li3.appendChild(document.createTextNode("seizure onset")); lg.appendChild(li3);
-        decFig.insertBefore(lg, note);
-      }
-      if (D.table_rows && D.table_headers) {
-        var det = el("details", "viz-table"); det.appendChild(el("summary", null, "Show as a table"));
-        var tw = el("div", "table-wrap"); det.appendChild(tw); decFig.appendChild(det);
-        buildTable(tw, D.table_headers, D.table_rows);
-      }
-    }).catch(function () {
-      var card = document.getElementById("decoder-card");
-      if (card) card.hidden = true;
-    });
-  }
-
   // ---------- Before / after slider ----------
   Array.prototype.forEach.call(document.querySelectorAll(".compare"), function (cmp) {
     var input = cmp.querySelector("input[type=range]");
@@ -484,14 +448,30 @@
   });
 
   // ---------- Videos: play when visible, respect reduced motion ----------
+  var previews = document.querySelectorAll(".project-preview");
+  var motionButton = document.querySelector(".preview-motion");
+  var previewsPaused = !!reduceMotion;
+  function updatePreviewMotion() {
+    Array.prototype.forEach.call(previews, function (v) {
+      v.dataset.motionPaused = String(previewsPaused);
+      if (previewsPaused) v.pause();
+      else { var play = v.play(); if (play && play.catch) play.catch(function () {}); }
+    });
+    if (motionButton) {
+      motionButton.textContent = previewsPaused ? "Play previews ▷" : "Pause previews Ⅱ";
+      motionButton.setAttribute("aria-label", (previewsPaused ? "Play" : "Pause") + " project video previews");
+    }
+  }
+  if (motionButton) motionButton.addEventListener("click", function () { previewsPaused = !previewsPaused; updatePreviewMotion(); });
+  updatePreviewMotion();
   var videos = document.querySelectorAll("video");
   if (reduceMotion) {
-    Array.prototype.forEach.call(videos, function (v) { v.controls = true; });
+    Array.prototype.forEach.call(videos, function (v) { if (!v.classList.contains("project-preview")) v.controls = true; });
   } else if ("IntersectionObserver" in window) {
     var vo = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         var v = en.target;
-        if (en.isIntersecting) {
+        if (en.isIntersecting && v.dataset.motionPaused !== "true") {
           if (v.preload === "none") v.preload = "auto";
           var p = v.play();
           if (p && p.catch) p.catch(function () {});
