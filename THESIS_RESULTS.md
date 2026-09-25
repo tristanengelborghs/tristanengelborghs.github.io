@@ -8,4 +8,4 @@ Source: Tristan Engelborghs, *Lokalisatie van de epileptogene zone en voorspelli
 - **Five selected features and model family:** §§3.3, 4.1 and 4.4. Ensemble of SVM, random forest, LDA, logistic regression and XGBoost. The final thesis results should not be attributed to the deep-learning architectures previously described on the site.
 - **Scope and limitations:** §§5.1–5.3, pp. 31–33. Headline results are from Gent, not a pooled two-centre validation. The public HUP dataset supports additional feature analysis. Resection in seizure-free patients is a proxy reference, the cohort is small, and patient-level performance varies substantially.
 
-The hero waveform is a decorative illustration, explicitly labelled as such. It is not patient data. No raw recordings or full thesis PDF are included in the website.
+The landing page introduces Tristan and links directly to each project. No raw recordings or full thesis PDF are included in the website.

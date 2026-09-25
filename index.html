@@ -18,7 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/dmsans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=7">
+  <link rel="stylesheet" href="assets/css/site.css?v=8">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -84,33 +84,29 @@
     <!-- Hero -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="container hero__grid">
-        <div>
-          <p class="kicker">AI engineer · MEng Artificial Intelligence, KU Leuven</p>
-          <h1 id="hero-title">Machine learning.<br>From signals<br>to <em>decisions.</em></h1>
-          <p class="hero__lead">I build machine-learning systems for clinical research and robotics. My latest work uses intracranial EEG to localise epileptogenic tissue and study surgical outcomes.</p>
+        <div class="hero__intro">
+          <p class="kicker">AI engineer · Leuven, Belgium</p>
+          <h1 id="hero-title">Hi, I’m Tristan<br><em>Engelborghs.</em></h1>
+          <p class="hero__lead">I build machine-learning systems, from brain signals to robot behaviour. I’m a KU Leuven AI graduate who likes taking a problem all the way from an idea to something that works.</p>
+          <p class="hero__personal">My work spans epilepsy research, robot learning and computer vision. Away from the keyboard, I teach scuba diving — and sometimes bring a little engineering back from the reef.</p>
           <div class="hero__actions">
-            <a class="btn btn--primary btn--lg" href="#clinical">Explore my thesis<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--primary btn--lg" href="#about">More about me<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             <a class="btn btn--ghost btn--lg" href="https://github.com/tristanengelborghs" rel="me"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
             <a class="btn btn--ghost btn--lg" href="https://www.linkedin.com/in/tristan-engelborghs/" rel="me"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a>
           </div>
-          <ul class="hero__facts" aria-label="Highlights">
-            <li><strong>0.878</strong><span>Mean localisation AUROC<br>13 seizure-free patients</span></li>
-            <li><strong>0.86</strong><span>Surgical-outcome AUROC<br>Resection Alignment Score</span></li>
-            <li><strong>91.0%</strong><span>LIBERO-Goal success<br>Fine-tuned robot policy</span></li>
-          </ul>
+          <p class="hero__availability">Open to AI research-engineering &amp; applied-science roles.</p>
         </div>
-        <div class="hero__media">
-          <figure class="research-cover">
-            <figcaption><span class="eyebrow">Featured research / 2026</span><h2>Finding the signal.<br>Mapping the focus.</h2></figcaption>
-            <div class="research-cover__plot" aria-hidden="true">
-              <div class="signal-grid"></div>
-              <svg viewBox="0 0 540 200" fill="none"><g stroke="currentColor" stroke-width="1.4"><path opacity=".35" d="M0 40l20 1 10-4 12 8 15-7 20 5 20-5 12 4 18-1 15 5 18-9 15 5 14-3 14 5 15-4 15 3 18-5 18 5 15-6 15 8 20-5 20 4 15-7 15 8 20-4 20 1 20-4 15 5 20-3 30 1"/><path d="M0 101l24-2 14 5 13-8 16 5 20-3 14 6 13-8 18 5 16-2 20 4 15-6 15 5 16-4 12 6 9-16 8 30 7-57 8 85 8-120 8 143 8-96 8 49 8-38 8 27 8-13 10 6 16-4 15 7 14-9 18 4 15-3 16 7 16-6 30 2"/><path opacity=".35" d="M0 161l20-3 14 5 15-7 14 5 15-3 20 5 15-6 15 7 15-8 15 4 20-1 15 4 15-6 15 5 15-1 14-4 15 5 15-4 15 6 15-8 20 5 15-3 15 6 15-5 20 2 15-4 20 6 30-3"/></g><path d="M302 10v180" stroke="#ce7655" stroke-dasharray="4 5"/></svg>
-              <span class="signal-label">iEEG → connectivity → channel ranking</span>
-            </div>
-            <div class="research-cover__bottom"><div><strong>0.878</strong><span>Mean AUROC · patient-wise validation</span></div><a href="#clinical" aria-label="Explore epilepsy research">↗</a></div>
-            <p class="research-cover__note">KU Leuven · Master’s thesis · waveform illustration</p>
-          </figure>
-        </div>
+        <nav class="project-overview" aria-labelledby="overview-title">
+          <div class="project-overview__head"><p class="eyebrow">Explore my work</p><h2 id="overview-title">A few things<br>I’ve been building.</h2></div>
+          <ol class="project-overview__list">
+            <li><a href="#clinical"><span class="project-overview__number">01</span><span><strong>Epilepsy research</strong><small>Brain networks, localisation &amp; surgical outcomes</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
+            <li><a href="#vla"><span class="project-overview__number">02</span><span><strong>Vision-language-action models</strong><small>Teaching a robot to act on what it sees and reads</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
+            <li><a href="#dexterous-hand"><span class="project-overview__number">03</span><span><strong>Dexterous robot hands</strong><small>Learning to manipulate through touch and control</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
+            <li><a href="#human-video"><span class="project-overview__number">04</span><span><strong>Learning from human video</strong><small>From hand tracking to robot demonstrations</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
+            <li><a href="#isaac-lab"><span class="project-overview__number">05</span><span><strong>Robot learning in Isaac Lab</strong><small>Simulation, demonstrations &amp; imitation learning</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
+            <li><a href="#underwater"><span class="project-overview__number">06</span><span><strong>Underwater video restoration</strong><small>A computer-vision side project, inspired by diving</small></span><span class="project-overview__arrow" aria-hidden="true">↗</span></a></li>
+          </ol>
+        </nav>
       </div>
     </section>
 
@@ -258,7 +254,7 @@
         </div>
         <ul class="cards cards--3" data-reveal>
           <li>
-            <article class="card card--media" aria-labelledby="p-dex">
+            <article id="dexterous-hand" class="card card--media" aria-labelledby="p-dex">
               <div class="card__media">
                 <video muted loop playsinline preload="none" poster="assets/media/shadow-reorient-first4.jpg" aria-label="Simulated Shadow Hand turning a cube, the first four evaluation episodes">
                   <source src="assets/media/shadow-reorient-first4.mp4" type="video/mp4">
@@ -274,7 +270,7 @@
             </article>
           </li>
           <li>
-            <article class="card card--media" aria-labelledby="p-hand">
+            <article id="human-video" class="card card--media" aria-labelledby="p-hand">
               <div class="card__media">
                 <video muted loop playsinline preload="none" poster="assets/media/hand-retarget.jpg" aria-label="Tracked hand skeleton on the left and the resulting robot action traces on the right">
                   <source src="assets/media/hand-retarget.mp4" type="video/mp4">
@@ -290,7 +286,7 @@
             </article>
           </li>
           <li>
-            <article class="card card--media" aria-labelledby="p-isaac">
+            <article id="isaac-lab" class="card card--media" aria-labelledby="p-isaac">
               <div class="card__media">
                 <video muted loop playsinline preload="none" poster="assets/media/isaac-parallel.jpg" aria-label="Isaac Lab simulating dozens of Franka arms in parallel on a cloud GPU">
                   <source src="assets/media/isaac-parallel.mp4" type="video/mp4">
