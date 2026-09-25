@@ -734,28 +734,12 @@ h1 em, h2 em { font-weight: 450; font-style: normal; }
 @media (min-width:1024px) { .hero__grid { grid-template-columns: 1.1fr 1fr; gap: 7vw; } }
 @media (max-width:767px) { .project-overview__grid { column-gap: 12px; } }
 
-/* Decorative network: slow, restrained motion without a media dependency. */
+/* Generative neural-network artwork, drawn on a canvas by site.js. */
 .hero-network { min-width: 0; }
-.signal-art { position: relative; background: #f2eee6; overflow: hidden; }
-.signal-art svg { display: block; width: 100%; height: auto; padding: 20px 5px; }
-.signal-art__label, .signal-art__index { position: absolute; left: 24px; font-size: .61rem; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
-.signal-art__label { top: 22px; }
-.signal-art__index { bottom: 20px; color: var(--brand); }
-.signal-orbit { stroke: #dcd5c8; stroke-width: .8; }
-.signal-orbit--inner { stroke-dasharray: 2 7; opacity: .7; }
-.signal-guide { stroke: #b8b0a2; stroke-width: 1; }
-.signal-edges { stroke: #56594e; stroke-width: .8; opacity: .34; }
-.signal-node { fill: #4f5449; }
-.signal-node--accent { fill: var(--brand); }
-.signal-constellation { transform-origin: 280px 225px; animation: constellation-drift 22s ease-in-out infinite alternate; }
-.signal-pulse { stroke: var(--brand); stroke-width: .8; animation: signal-breathe 8s ease-in-out infinite; }
-.signal-trace { stroke: var(--brand); stroke-width: 1.4; stroke-dasharray: 14 280; animation: signal-travel 12s linear infinite; opacity: .65; }
-.hero-network figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 16px; }
-.signal-explore { display: inline-flex; align-items: center; gap: 24px; min-height: 44px; font-size: .86rem; color: var(--ink); text-decoration: none; }
-.signal-explore:hover { color: var(--brand); }
-.signal-toggle { cursor: pointer; font-size: .7rem; padding: 12px 0 12px 12px; background: transparent; border: 0; color: var(--muted); }
-.hero-network.is-paused .signal-motion { animation-play-state: paused; }
-@keyframes constellation-drift { from { transform: rotate(-5deg) translateY(-3px); } to { transform: rotate(5deg) translateY(3px); } }
-@keyframes signal-breathe { 0%,100% { opacity: .18; transform: scale(.8); } 50% { opacity: .6; transform: scale(1.8); } }
-@keyframes signal-travel { from { stroke-dashoffset: 294; } to { stroke-dashoffset: 0; } }
-@media (prefers-reduced-motion: reduce) { .signal-motion { animation: none; } .signal-toggle { display: none; } }
+.signal-art { position: relative; background: transparent; }
+.signal-art > canvas { display: block; width: 100%; height: auto; aspect-ratio: 5 / 4; }
+.signal-toggle { display: grid; place-items: center; position: absolute; bottom: 0; right: 0; width: 44px; height: 44px; background: transparent; border: 0; color: var(--muted); opacity: .45; cursor: pointer; }
+.signal-toggle:hover, .signal-toggle:focus-visible { opacity: 1; }
+.signal-toggle svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.2; }
+html:not(.js) .signal-toggle { display: none; }
+@media (prefers-reduced-motion:reduce) { .signal-toggle { display: none; } }
